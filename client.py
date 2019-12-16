@@ -23,7 +23,7 @@ class Client:
         return protocol+min_version+max_version+flags+endpoint_host+endpoint_port+vendor+hardware_version+firmware+device_id
 
 
-    def SetupMiningConnection(self):
+    def SetupConnection(self):
 
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

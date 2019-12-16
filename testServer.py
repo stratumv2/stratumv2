@@ -1,8 +1,9 @@
-import server
+import noiseEncryption
 
-server = server.Server()
+server = noiseEncryption.Noise()
 
-server.StartServer()
+server.HandleNoiseConnection()
 
-#test
+data = server.receiveNoiseFrame()
 
+server.sendNoiseFrame(data)

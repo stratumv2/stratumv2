@@ -1,14 +1,20 @@
 import socket
 import threading
 from dataTypes import *
+from noiseEncryption import *
 
 
 class Server:
 
     def __init__(self):
-        self.connectionsList=[]
+        self.connectionsList = []
         self.version = 2
         self.flags = 0
+
+
+    def SetupConnection(self):
+        return
+    """
 
     def StartServer(self):
 
@@ -109,5 +115,5 @@ class Server:
         flags = U32(flags)
         error_code= STR0_255(error)
 
-        return flags+error_code
+        return flags+error_code"""
 
