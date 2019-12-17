@@ -140,7 +140,7 @@ def msgTypesConverter(message_type,channel_msg_bit):
 def FRAME(extension_type,msg_type,payload):
     #extension_type = 0x0ABC
     #extension_type = 0x8ABC
-    extension_type = 0
+    #extension_type = 0
 
     msg_type_list = {"SetupConnection":[0x00,0],
                      "SetupConnection.Success":[0x01,0],
@@ -191,7 +191,9 @@ def FRAME(extension_type,msg_type,payload):
 
     msg_length = payload.__len__()
 
-    return U8(extension_type)+U8(msg_type)+U24(msg_length)+BYTES(payload)
+    #print(msg_length)
+
+    return U16(extension_type)+U8(msg_type)+U24(msg_length)+BYTES(payload)
 
 
 

@@ -3,17 +3,60 @@ import threading
 from dataTypes import *
 from noiseEncryption import *
 
+import noiseEncryption
+
 
 class Server:
 
     def __init__(self):
-        self.connectionsList = []
+
         self.version = 2
-        self.flags = 0
+        self.server = noiseEncryption.Noise()
+        self.server.HandleNoiseConnection()
+
+    def functionSelecter(self):
+        frame = self.server.receiveNoiseFrame()
+        #extension_type = frame[0:1]
+        msg_type = frame[2]
+        #protocol = frame[6]
+        #min_version = frame[7:8]
+        #max_version = frame[9:10]
+        #print(frame)
+        print(msg_type)
+        if msg_type == 0x00:
+            self.SetupConnection(frame)
+        #print((msg_type).from_bytes(1, byteorder='little'))
+        #print((protocol).from_bytes(1, byteorder='little'))
+        #print(min_version)
+        #print(max_version)
+        #print(int.from_bytes(version, byteorder='little'))
 
 
-    def SetupConnection(self):
-        return
+
+    def SetupConnection(self,frame):
+        min_version = int.from_bytes(frame[7:8], byteorder='little')
+        max_version = int.from_bytes(frame[9:10], byteorder='little')
+
+        #by now, it only checks if the version are matched
+        if min_version <= self.version <= max_version:
+            flags = 0 #still to define
+            payload = U16(self.version)+U32(flags)
+            frame_success = FRAME(0,"SetupConnection.Success",payload)
+            self.server.sendNoiseFrame(frame_success)
+            print("setup success")
+        else:
+            flags=0 #still do define
+            error_code = "protocol-version-mismatch"
+
+            payload = U32(flags)+STR0_255(error_code)
+
+            frame_error = FRAME(0,"SetupConnection.Error",payload)
+
+            self.server.sendNoiseFrame(frame_error)
+            print("setup error")
+            self.server.closeNoiseConnection()
+
+
     """
 
     def StartServer(self):

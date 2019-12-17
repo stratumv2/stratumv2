@@ -1,6 +1,7 @@
 import information
 import socket
 from dataTypes import *
+from noiseEncryption import *
 
 class Client:
 
@@ -8,25 +9,52 @@ class Client:
         self.serverHostname=serverHostname
         self.com_socket=None
 
-    def SetupMessage(self):
+
+        self.client = Noise()
+
+        self.client.connectToNoise("localhost", 6222)
+
+
+    def SetupConnection(self):
         protocol = U8(information.protocol["Mining Protocol"])
-        min_version= U16(information.min_version)
+        min_version = U16(information.min_version)
         max_version = U16(information.max_version)
         flags = U32(information.flags)
         endpoint_host = STR0_255(information.endpoint_host)
-        endpoint_port =U16(information.endpoint_port)
+        endpoint_port = U16(information.endpoint_port)
         vendor = STR0_255(information.vendor)
         hardware_version = STR0_255((information.hardware_version))
         firmware = STR0_255(information.firmware)
         device_id = STR0_255(information.device_id)
 
-        return protocol+min_version+max_version+flags+endpoint_host+endpoint_port+vendor+hardware_version+firmware+device_id
+        payload = protocol+min_version+max_version+flags+endpoint_host+endpoint_port+vendor+hardware_version+firmware+device_id
+        frame = FRAME(0x0abc,"SetupConnection",payload)
+
+        self.client.sendNoiseFrame(frame)
+
+        frame = self.client.receiveNoiseFrame()
+        msg_type = frame[2]
+
+        if msg_type == 0x01:
+            print("setup success")
+            return True
+        if msg_type ==0x02:
+            print("setup error")
+            self.client.closeNoiseConnection()
+            return False
+
+    def OpenStandartMiningChannel(self):
+        return
+
+    def MiningProtocolSetup(self):
+        setup = self.SetupConnection()
+        if setup:
+            self.OpenStandartMiningChannel()
 
 
-    def SetupConnection(self):
 
 
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        """s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print(self.serverHostname, information.endpoint_port)
 
         s.connect((self.serverHostname,information.endpoint_port))
@@ -63,7 +91,7 @@ class Client:
             print("Setup connection must be done first.")
             return
         else:
-            self.SetupMiningConnection()
+            self.SetupMiningConnection()"""
 
 
 

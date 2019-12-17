@@ -1,9 +1,13 @@
 from dataTypes import *
 import socket
-from client import *
+import client
 from noiseEncryption import *
 
-client =  Noise()
+
+my_client = client.Client("127.0.0.1")
+my_client.SetupConnection()
+
+"""client =  Noise()
 
 client.connectToNoise("localhost",6222)
 
@@ -11,7 +15,7 @@ client.sendNoiseFrame(b"test")
 
 data=client.receiveNoiseFrame()
 
-print(data)
+print(data)"""
 
 #print(BOOL(True))
 

@@ -1,6 +1,7 @@
 import socket
 from itertools import cycle
 import socket
+import struct
 
 from noise.connection import NoiseConnection
 
@@ -85,6 +86,9 @@ class Noise:
         received = self.noise.decrypt(data)
         return received
 
+    def closeNoiseConnection(self):
+        self.connection.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER, struct.pack('ii', 1, 0))
+        self.connection.close()
 
 
 
