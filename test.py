@@ -1,11 +1,13 @@
 from dataTypes import *
 import socket
 import client
-from noiseEncryption import *
+
+
 
 
 my_client = client.Client("127.0.0.1")
 my_client.SetupConnection()
+my_client.OpenStandartMiningChannel()
 
 """client =  Noise()
 

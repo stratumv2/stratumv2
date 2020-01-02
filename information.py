@@ -20,5 +20,11 @@ firmware = "svtwo-0.1.0"
 
 device_id = "1234567890"
 
+username = "sthiagolg"
+
+hash_rate = 50000 #h/s
+
+max_target = 312000
+
 
 

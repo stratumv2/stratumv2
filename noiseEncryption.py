@@ -3,6 +3,9 @@ from itertools import cycle
 import socket
 import struct
 
+import warnings
+warnings.filterwarnings("ignore")
+
 from noise.connection import NoiseConnection
 
 class Noise:
@@ -81,7 +84,7 @@ class Noise:
 
     def receiveNoiseFrame(self):
 
-        #2097158 = 2+1+3+(2**(24-3) max size of frame
+        #2097158 = 2+1+3+(2**(24-3)) max size of frame
         data = self.connection.recv(2097158)
         received = self.noise.decrypt(data)
         return received

@@ -196,6 +196,23 @@ def FRAME(extension_type,msg_type,payload):
     return U16(extension_type)+U8(msg_type)+U24(msg_length)+BYTES(payload)
 
 
+def parse_bytes_to_int(frame,*args):
+    if len(args)==1:
+        end=args[0]
+        start = args[0]
+    elif len(args)==2:
+        start=args[0]
+        end=args[1]
+    else:
+        start=0
+        end=frame.__len__()
+        #raise Exception("Missing Arguments")
+
+    #print(start,end)
+
+
+    data = int.from_bytes(frame[start:end], byteorder='little')
+    return data
 
 
 
