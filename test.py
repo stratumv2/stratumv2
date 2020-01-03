@@ -6,9 +6,9 @@ import client
 
 
 my_client = client.Client("127.0.0.1")
-my_client.SetupConnection()
-my_client.OpenStandartMiningChannel()
-
+#my_client.SetupConnection()
+#my_client.OpenStandartMiningChannel()
+my_client.MiningProtocolSetup()
 """client =  Noise()
 
 client.connectToNoise("localhost",6222)

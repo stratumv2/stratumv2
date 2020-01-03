@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e524e74e-25a5-493c-a1ff-69be6a27288d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/messages.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataTypes.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataTypes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/information.py" beforeDir="false" afterPath="$PROJECT_DIR$/information.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noiseEncryption.py" beforeDir="false" afterPath="$PROJECT_DIR$/noiseEncryption.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/testServer.py" afterDir="false" />
@@ -59,7 +57,7 @@
       <workItem from="1575632093322" duration="7419000" />
       <workItem from="1575876540657" duration="14552000" />
       <workItem from="1576336787138" duration="127000" />
-      <workItem from="1576511522892" duration="23471000" />
+      <workItem from="1576511522892" duration="33079000" />
     </task>
     <servers />
   </component>

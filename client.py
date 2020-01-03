@@ -86,10 +86,15 @@ class Client:
 
             return channel_id
         elif msg_type == 0x12:
-            print("open standard channel error")
+            length = frame_server[11]
+            error_code = frame_server[11:12+length]
+            print("open standard channel error: "+error_code.decode())
+
             return
         else:
             print("bad msg type")
+
+
 
 
 
@@ -99,6 +104,10 @@ class Client:
         setup = self.SetupConnection()
         if setup:
             channel_id = self.OpenStandartMiningChannel()
+
+            if channel_id:
+
+                pass
 
 
 
