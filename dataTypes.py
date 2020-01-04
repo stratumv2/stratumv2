@@ -56,6 +56,16 @@ def U32(inter):
 
     return (inter).to_bytes(4, byteorder='little')
 
+def U64(inter):
+
+    assert(type(inter) is int), "not integer"
+
+    if inter >= 2**64:
+        raise Exception("Overflow")
+
+    return (inter).to_bytes(8, byteorder='little')
+
+
 def U256(inter):
 
     assert(type(inter) is int), "not integer"
