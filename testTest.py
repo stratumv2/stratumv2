@@ -1,7 +1,7 @@
 from dataTypes import *
 import messages
 
-integer = msgTypesConverter(0x00,1)
+#integer = msgTypesConverter(0x00,1)
 
 #print(integer)
 
@@ -12,16 +12,9 @@ data = parse_bytes_to_int(testNumber)
 #print(data)
 
 
-setupMsg = messages.SetupConnection(0,2,3,0,"127.0.0.1",6222,"bitman","s9i","swtwo","deviceID")
 
-print(setupMsg.device_id)
-print(setupMsg.raw())
 
-setup2 = messages.SetupConnection(setupMsg.raw())
-
-print(setup2.flags)
-
-m1 = messages.SetupConnectionError(4,"chepa")
+"""m1 = messages.SetupConnectionError(4,"chepa")
 
 m2 = messages.SetupConnectionError(m1.raw())
 
@@ -50,4 +43,34 @@ m9 = messages.OpenExtendedMiningChannelSuccess(1,2,3,4,b'vamo')
 
 m10 = messages.OpenExtendedMiningChannelSuccess(m9.raw())
 
-print(m10.request_id)
+print(m10.request_id)"""
+
+setupMsg = messages.SetupConnection(0,2,3,0,"127.0.0.1",6222,"bitman","s9i","swtwo","deviceID")
+
+print(setupMsg.device_id)
+print("len",setupMsg.raw().__len__())
+
+print(setupMsg.raw())
+
+setup2 = messages.SetupConnection(setupMsg.raw())
+
+
+
+
+
+setupFrameRaw = messages.FRAME(setupMsg).raw()
+
+#print(type(setupFrameRaw))
+
+decodeFrame = messages.FRAME(setupFrameRaw)
+
+print(decodeFrame.payload.vendor)
+
+#print(decodeFrame.raw())
+
+#print(decodeFrame.payload)
+
+#decodeFrame = messages.FRAME(setupFrameRaw)
+
+
+

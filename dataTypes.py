@@ -2,6 +2,7 @@ import array
 import binascii
 import ctypes
 import struct
+import information
 
 def BOOL(bool):
 
@@ -136,7 +137,7 @@ def SEQ0_255():
 def SEQ0_64K():
     return
 
-def msgTypesConverter(message_type,channel_msg_bit):
+"""def msgTypesConverter(message_type,channel_msg_bit):
     #just to make the task easier (copy from spec)
 
     assert (channel_msg_bit==0 or channel_msg_bit==1)
@@ -145,59 +146,72 @@ def msgTypesConverter(message_type,channel_msg_bit):
 
     result = message_type | channel_msg_bit
 
-    return result
+    return result"""
 
-def FRAME(extension_type,msg_type,payload):
+def FRAME(payload):
+
+    msg_type_name = payload.msg_type()
+
     #extension_type = 0x0ABC
     #extension_type = 0x8ABC
     #extension_type = 0
 
     msg_type_list = {"SetupConnection":[0x00,0],
-                     "SetupConnection.Success":[0x01,0],
-                     "SetupConnection.Error":[0x02,0],
+                     "SetupConnectionSuccess":[0x01,0],
+                     "SetupConnectionError":[0x02,0],
                      "ChannelEndpointChanged":[0x03,1],
                      "OpenStandardMiningChannel":[0x10,0],
-                     "OpenStandardMiningChannel.Success":[0x11,0],
-                     "OpenStandardMiningChannel.Error":[0x12,0],
+                     "OpenStandardMiningChannelSuccess":[0x11,0],
+                     "OpenStandardMiningChannelError":[0x12,0],
                      "OpenExtendedMiningChannel":[0x13,0],
-                     "OpenExtendedMiningChannel.Success":[0x14,0],
-                     "OpenExtendedMiningChannel.Error":[0x15,0],
+                     "OpenExtendedMiningChannelSuccess":[0x14,0],
+                     "OpenExtendedMiningChannelError":[0x15,0],
                      "UpdateChannel":[0x16,1],
-                     "UpdateChannel.Error":[0x17,1],
+                     "UpdateChannelError":[0x17,1],
                      "CloseChannel":[0x18,1],
                      "SetExtranoncePrefix":[0x19,1],
                      "SubmitSharesStandard":[0x1a,1],
                      "SubmitSharesExtended":[0x1b,1],
-                     "SubmitShares.Success":[0x1c,1],
-                     "SubmitShares.Error":[0x1d,1],
+                     "SubmitSharesSuccess":[0x1c,1],
+                     "SubmitSharesError":[0x1d,1],
                      "NewMiningJob":[0x1e,1],
                      "NewExtendedMiningJob":[0x1f,1],
                      "SetNewPrevHash":[0x20,1],
                      "SetTarget":[0x21,1],
                      "SetCustomMiningJob":[0x22,0],
-                     "SetCustomMiningJob.Success":[0x23,0],
-                     "SetCustomMiningJob.Error":[0x24,0],
+                     "SetCustomMiningJobSuccess":[0x23,0],
+                     "SetCustomMiningJobError":[0x24,0],
                      "Reconnect":[0x25,0],
                      "SetGroupChannel":[0x26,0],
                      "AllocateMiningJobToken":[0x50,0],
-                     "AllocateMiningJobToken.Success":[0x51,0],
-                     "AllocateMiningJobToken.Error":[0x52,0],
+                     "AllocateMiningJobTokenSuccess":[0x51,0],
+                     "AllocateMiningJobTokenError":[0x52,0],
                      "IdentifyTransactions":[0x53,0],
-                     "IdentifyTransactions.Success":[0x54,0],
+                     "IdentifyTransactionsSuccess":[0x54,0],
                      "ProvideMissingTransactions":[0x55,0],
-                     "ProvideMissingTransactions.Success":[0x56,0],
+                     "ProvideMissingTransactionsSuccess":[0x56,0],
                      "CoinbaseOutputDataSize":[0x70,0],
                      "NewTemplate":[0x71,0],
                      "SetNewPrevHashTDP":[0x72,0],
                      "RequestTransactionData":[0x73,0],
-                     "RequestTransactionData.Success":[0x74,0],
-                     "RequestTransactionData.Error":[0x75,0],
+                     "RequestTransactionDataSuccess":[0x74,0],
+                     "RequestTransactionDataError":[0x75,0],
                      "SubmitSolution":[0x76,0]
 
                      }
-    msg_type_pair = msg_type_list[msg_type]
+    msg_type_pair = msg_type_list[msg_type_name]
 
-    msg_type = msgTypesConverter(msg_type_pair[0],msg_type_pair[1])
+    msg_type = msg_type_pair[0]#msgTypesConverter(msg_type_pair[0],msg_type_pair[1])
+
+    extension_type = information.extension_type
+
+    channel_msg_bit = msg_type_pair[1]
+
+    assert (channel_msg_bit == 0 or channel_msg_bit == 1)
+    if channel_msg_bit == 1:
+        channel_msg_bit = 0b10000000
+
+    extension_type = extension_type |  channel_msg_bit
 
     msg_length = payload.__len__()
 
@@ -207,6 +221,12 @@ def FRAME(extension_type,msg_type,payload):
 
 
 def parse_bytes_to_int(frame,*args):
+
+    #if just une argument, take the byte or bytes
+    #if 2 arguments, first is the start and second is the end
+
+
+
     if len(args)==1:
         end=args[0]
         start = args[0]

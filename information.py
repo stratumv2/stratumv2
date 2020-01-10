@@ -26,5 +26,7 @@ hash_rate = 50000 #h/s
 
 max_target = 312000
 
+extension_type = 0x7ABC
+
 
 
